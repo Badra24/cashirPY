@@ -53,7 +53,7 @@ These functions provide basic functionality for managing a list of items, adding
 
 CHECK OUT :
 ![alt text](https://github.com/Badra24/cashirPY/blob/main/picture/sintax%202.png?raw=true)
-Based on the provided code snippet, here is a description of the `check_out()` function:
+
 
 The `check_out()` 
 
