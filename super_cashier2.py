@@ -5,7 +5,7 @@ item = []
 def add_item(name,qty,price) : 
     item.append({"name":name, "price":price,"qty":qty})
     
-def delet_items(name):
+def delete_items(name):
     global item
     item = [i for i in item if i["name"] != name]
 
@@ -38,7 +38,31 @@ def check_outs():
     total_after = total - (total * discount)
     insert_tabel(total_after ,discount)
     return total_after, discount
-def insert_tabel(total_after,discount):
+def insert_tabel(total_after, discount):
+    try:
+        connect = sqlite3.connect('trans.db')
+        cursor = connect.cursor()
+
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS transaksi (
+            no_id INTEGER PRIMARY KEY,
+            nama_item TEXT,
+            jumlah_item INTEGER,
+            harga REAL,
+            total_harga REAL,
+            diskon REAL,
+            harga_diskon REAL
+        );
+        """)
+
+        for items in item:
+            cursor.execute("INSERT INTO transaksi (no_id, nama_item, jumlah_item, harga, total_harga, diskon, harga_diskon) VALUES(?,?,?,?,?,?,?)",
+                           (1, items["name"], items["qty"], items["price"], items["price"] * items["qty"], discount, total_after))
+        connect.commit()
+        connect.close()
+    except Exception as error:
+        print(f'Error: {error}')
+
     try:
         conect = sqlite3.connect('trans.db')
         set= conect.cursor()
@@ -69,7 +93,7 @@ add_item("Ayam Bakar",2,30000)
 add_item("Nasi Goreng",1,30000)
 print(item)
 
-delet_items('Ayam Bakar')
+delete_items('Ayam Bakar')
 print(item)
 reset_trans()
 print(item)

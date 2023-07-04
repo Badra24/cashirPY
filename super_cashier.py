@@ -25,7 +25,7 @@ def add_item(name, qty, price):
 
 def delete_item(name):
     global items
-    items = [item for item in items if item["name"] != name]
+    items = [item for item in items if item["name"].lower() != name.lower()]
 
 def reset_transaction():
     global items
@@ -76,7 +76,8 @@ add_item('Pasta Gigi', 3, 15000)
 print(items) 
 
 delete_item('Pasta Gigi')
-print(items) 
+print(items)
+
 
 reset_transaction()
 print(items)
